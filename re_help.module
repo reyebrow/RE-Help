@@ -77,7 +77,7 @@ function re_help_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array('re_help_admin_settings'),
     'access arguments' => array('access administration pages'),
-    'type' => MENU_NORMAN_ITEM,
+    'type' => MENU_NORMAL_ITEM,
   );
   // Menu item for the settings page:
   $items['admin/help/raisedeyebrow'] = array(
