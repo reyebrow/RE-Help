@@ -3,19 +3,22 @@
 /**
  * @file
  * This module provides an extra link in the Drupal menu that links to
- * http://help.raisedeyebrowclients.com.
+ * an external help site. For example, it might be configured to link to a
+ * Drupal service provider's knowledgebase.
+ *
  * @author Christopher Torgalson <chris@raisedeyebrow.com>
  */
 
 
 // Constants (default admin settings form values):
-define('RE_HELP_URL', 'http://help.raisedeyebrowclients.com/user');
+define('RE_HELP_URL', 'http://drupal.org/user');
 define('RE_HELP_DESTINATION', NULL);
 define('RE_HELP_HTTP_RESPONSE_CODE', 302);
+define('RE_HELP_MENU_LINK_TEXT', 'RE Help Manual');
 
 
 /**
- * This function handles the redirect when the admin/help/raisedeyebrow link is
+ * This function handles the redirect when the admin/help/re_help link is
  * clicked.
  *
  * @param array $options Array containing three items:
@@ -43,7 +46,7 @@ function re_help_admin_settings() {
     '#description' => t('The URL to redirect to. Defaults to the user page of the help site.'),
     '#type' => 'textfield',
     '#default_value' => variable_get('re_help_url', RE_HELP_URL),
-    '#weight' => -10
+    '#weight' => -15,
   );
   // Help destination field:
   $form['re_help_destination'] = array(
@@ -51,7 +54,7 @@ function re_help_admin_settings() {
     '#description' => t('The destination for the user if, as in the default case, the Help Site URL is set to a login page.'),
     '#type' => 'textfield',
     '#default_value' => variable_get('re_help_destination', RE_HELP_DESTINATION),
-    '#weight' => -5
+    '#weight' => -10,
   );
   // HTTP response code field:
   $form['re_help_http_response_code'] = array(
@@ -59,7 +62,14 @@ function re_help_admin_settings() {
     '#description' => t('HTTP response code for the redirect from <em>this</em> site to the help site. Set to 302 by default and should seldom need alteration.'),
     '#type' => 'textfield',
     '#default_value' => variable_get('re_help_http_response_code', RE_HELP_HTTP_RESPONSE_CODE),
-    '#weight' => 0
+    '#weight' => -5,
+  );
+  $form['re_help_menu_link_text'] = array(
+    '#title' => t('Menu Item Help Text'),
+    '#description' => t('This is the text that will appear in the help menu link.'),
+    '#type' => 'textfield',
+    '#default_value' => variable_get('re_help_menu_link_text', RE_HELP_MENU_LINK_TEXT),
+    '#weight' => 0,
   );
   // Return the completed form:
   return system_settings_form($form);
@@ -71,17 +81,17 @@ function re_help_admin_settings() {
  */
 function re_help_menu() {
   $items = array();
-  // The help menu item itself:
+  // Menu item for the settings page:
   $items['admin/settings/re_help'] = array(
-    'title' => 'Raised Eyebrow Help Settings',
+    'title' => 'RE Help Settings',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('re_help_admin_settings'),
     'access arguments' => array('access administration pages'),
     'type' => MENU_NORMAL_ITEM,
   );
-  // Menu item for the settings page:
-  $items['admin/help/raisedeyebrow'] = array(
-    'title' => 'Raised Eyebrow Help Manual',
+  // The help menu item itself:
+  $items['admin/help/re_help'] = array(
+    'title' => variable_get('re_help_menu_link_text', RE_HELP_MENU_LINK_TEXT),
     'page callback' => '_re_help_redirect',
     'page arguments' => array(
       array(
@@ -93,5 +103,6 @@ function re_help_menu() {
     'access arguments' => array('access administration pages'),
     'type' => MENU_NORMAL_ITEM,
   );
+  // Return the array:
   return $items;
 } // re_help_menu()

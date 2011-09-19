@@ -4,4 +4,4 @@ description = "This module provides an extra link in the Drupal menu that links 
 package = "Raised Eyebrow Custom Modules"
 core = 6.x
 php = 5.2
-version = 6.x-1.1
+version = 6.x-1.2
