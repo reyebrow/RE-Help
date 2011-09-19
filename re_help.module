@@ -28,7 +28,13 @@ define('RE_HELP_MENU_LINK_TEXT', 'RE Help Manual');
  *                          -- (int) http_response_code: 302 by default
  */
 function _re_help_redirect($options) {
-  drupal_goto($options['url'], !empty($options['destination']) ? 'destination='. urlencode($options['destination']) : NULL, NULL, $options['http_response_code']);
+  drupal_goto(
+    $options['url'],
+    array(
+      'query' => (!empty($options['destination']) ? array('destination' => urlencode($options['destination'])) : NULL)
+    ),
+    $options['http_response_code']
+  );
 } // _re_help_redirect()
 
 
@@ -77,12 +83,12 @@ function re_help_admin_settings() {
 
 
 /**
- * Implementation of hook_menu().
+ * Implements hook_menu().
  */
 function re_help_menu() {
   $items = array();
   // Menu item for the settings page:
-  $items['admin/settings/re_help'] = array(
+  $items['admin/config/re_help'] = array(
     'title' => 'RE Help Settings',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('re_help_admin_settings'),
