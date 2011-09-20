@@ -1,6 +1,6 @@
 ;$Id$
 name = "RE Help"
-description = "This module provides an extra link in the Drupal menu that links to http://help.raisedeyebrowclients.com."
+description = "This module provides a configurable extra link in the Drupal menu that links to an agency or organization's Drupal help page."
 package = "Raised Eyebrow Custom Modules"
 core = 7.x
 php = 5.2
